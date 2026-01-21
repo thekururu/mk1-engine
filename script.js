@@ -36,13 +36,32 @@ function draw(ctx) {
 
 function renderFiles() {
   const container = document.getElementById("files");
-  container.innerHTML = "📁 scripts<br>";
-  container.innerHTML += `
-    <div class="file" onclick="openFile('scripts','main.js')">
-      📄 main.js
-    </div>
+
+  container.innerHTML = `
+    <button id="newFolder">+ Carpeta</button>
   `;
+
+  document.getElementById("newFolder").onclick = () => {
+    const name = prompt("Nombre de la carpeta:");
+    if (!name) return;
+    if (!files[name]) {
+      files[name] = {};
+      renderFiles();
+    }
+  };
+
+  for (let folder in files) {
+    container.innerHTML += `<div>📁 ${folder}</div>`;
+    for (let file in files[folder]) {
+      container.innerHTML += `
+        <div class="file" onclick="openFile('${folder}','${file}')">
+          📄 ${file}
+        </div>
+      `;
+    }
+  }
 }
+
 
 function openFile(folder, file) {
   document.getElementById("code").value = files[folder][file];
@@ -81,4 +100,5 @@ document.getElementById("newFolder").onclick = () => {
     renderFiles();
   }
 };
+
 

@@ -6,7 +6,8 @@ body {
   font-family: Arial;
   display: grid;
   grid-template-columns: 220px 1fr;
-  grid-template-rows: 1fr 260px;
+ grid-template-rows: 1fr 1fr;
+
 }
 
 /* FILES */
@@ -92,3 +93,12 @@ textarea {
 canvas {
   border: 2px solid #333;
 }
+
+#screen {
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+

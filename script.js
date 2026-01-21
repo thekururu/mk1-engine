@@ -72,3 +72,13 @@ function stop() {
 
 renderFiles();
 openFile("scripts","main.js");
+document.getElementById("newFolder").onclick = () => {
+  const name = prompt("Nombre de la carpeta:");
+  if (!name) return;
+
+  if (!files[name]) {
+    files[name] = {};
+    renderFiles();
+  }
+};
+

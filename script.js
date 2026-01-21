@@ -3,13 +3,14 @@ window.onload = () => {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
   const code = document.getElementById("code");
+  const filesPanel = document.getElementById("files");
 
   let loopId;
   let update = () => {};
   let draw = () => {};
 
   // 📁 SISTEMA DE ARCHIVOS VIRTUAL
-  const files = {
+  const fs = {
     scripts: {
       "main.js": `
 let sun = { x: 300, y: 120, r: 40 };
@@ -38,24 +39,39 @@ function draw(ctx) {
     }
   };
 
-  // 📁 RENDER ARCHIVOS
+  let currentFolder = "scripts";
+  let currentFile = "main.js";
+
+  // 📁 RENDER PANEL
   function renderFiles() {
-    const panel = document.getElementById("files");
-    panel.innerHTML = `<button id="newFolder">+ Carpeta</button>`;
+    filesPanel.innerHTML = `
+      <button id="newFolder">+ Carpeta</button>
+      <button id="newFile">+ Archivo</button>
+      <hr>
+    `;
 
     document.getElementById("newFolder").onclick = () => {
       const name = prompt("Nombre de la carpeta:");
-      if (name && !files[name]) {
-        files[name] = {};
+      if (name && !fs[name]) {
+        fs[name] = {};
         renderFiles();
       }
     };
 
-    for (let folder in files) {
-      panel.innerHTML += `<div class="folder">📁 ${folder}</div>`;
-      for (let file in files[folder]) {
-        panel.innerHTML += `
-          <div class="file" onclick="openFile('${folder}','${file}')">
+    document.getElementById("newFile").onclick = () => {
+      const name = prompt("Nombre del archivo (ej: game.js):");
+      if (name && !fs[currentFolder][name]) {
+        fs[currentFolder][name] = "// nuevo archivo\n";
+        renderFiles();
+      }
+    };
+
+    for (let folder in fs) {
+      filesPanel.innerHTML += `<div class="folder">📁 ${folder}</div>`;
+      for (let file in fs[folder]) {
+        filesPanel.innerHTML += `
+          <div class="file"
+               onclick="openFile('${folder}','${file}')">
             📄 ${file}
           </div>
         `;
@@ -65,35 +81,10 @@ function draw(ctx) {
 
   // 📄 ABRIR ARCHIVO
   window.openFile = (folder, file) => {
-    code.value = files[folder][file];
+    currentFolder = folder;
+    currentFile = file;
+    code.value = fs[folder][file];
   };
 
   // ▶ RUN
   window.run = () => {
-    cancelAnimationFrame(loopId);
-
-    try {
-      eval(code.value);
-    } catch (e) {
-      alert(e);
-      return;
-    }
-
-    function loop() {
-      ctx.clearRect(0,0,600,240);
-      update();
-      draw(ctx);
-      loopId = requestAnimationFrame(loop);
-    }
-    loop();
-  };
-
-  // ■ STOP
-  window.stop = () => {
-    cancelAnimationFrame(loopId);
-  };
-
-  // INIT
-  renderFiles();
-  openFile("scripts", "main.js");
-};

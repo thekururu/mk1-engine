@@ -177,4 +177,23 @@ function renderFiles() {
     filesDiv.appendChild(item);
   }
 }
+function uploadFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  if (!file.name.endsWith(".js")) {
+    alert("Solo archivos .js");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    fs[currentPath][file.name] = reader.result;
+    renderFiles();
+    document.getElementById("code").value = reader.result;
+  };
+
+  reader.readAsText(file);
+}
+
 

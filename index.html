@@ -1,24 +1,26 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Web Engine</title>
+  <title>MK1 Engine</title>
   <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
 
+  <!-- PANEL IZQUIERDO -->
   <div id="files"></div>
-<div id="files">
-  <button id="newFolder">+ Carpeta</button>
-</div>
+
+  <!-- EDITOR -->
   <div id="editor">
     <textarea id="code"></textarea>
-    <div class="buttons">
+    <div id="controls">
       <button onclick="run()">▶ RUN</button>
       <button onclick="stop()">■ STOP</button>
     </div>
   </div>
 
+  <!-- CANVAS -->
   <div id="screen">
     <canvas id="canvas" width="600" height="240"></canvas>
   </div>
@@ -26,4 +28,3 @@
   <script src="./script.js"></script>
 </body>
 </html>
-

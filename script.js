@@ -1,18 +1,25 @@
-window.onload = () => {
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const code = document.getElementById("code");
 
-  const canvas = document.getElementById("canvas");
-  const ctx = canvas.getContext("2d");
-  const code = document.getElementById("code");
-  const filesPanel = document.getElementById("files");
+let loopId;
+let update = () => {};
+let draw = () => {};
 
-  let loopId;
-  let update = () => {};
-  let draw = () => {};
+// 📁 SISTEMA DE ARCHIVOS VIRTUAL REAL
+const fs = {
+  scripts: {
+    "main.js": defaultMain()
+  }
+};
 
-  // 📁 SISTEMA DE ARCHIVOS VIRTUAL
-  const fs = {
-    scripts: {
-      "main.js": `
+let currentFolder = "scripts";
+let currentFile = "main.js";
+
+// ===== FILE SYSTEM =====
+
+function defaultMain() {
+  return `
 let sun = { x: 300, y: 120, r: 40 };
 let moon = { x: 0, y: 120, r: 30, speed: 0.5 };
 
@@ -35,86 +42,109 @@ function draw(ctx) {
   ctx.arc(moon.x, moon.y, moon.r, 0, Math.PI*2);
   ctx.fill();
 }
-`
-    }
-  };
+`;
+}
 
-  let currentFolder = "scripts";
-  let currentFile = "main.js";
+function renderFiles() {
+  const tree = document.getElementById("files-tree");
+  tree.innerHTML = "";
 
-  // 📁 RENDER PANEL
-  function renderFiles() {
-    filesPanel.innerHTML = `
-      <button id="newFolder">+ Carpeta</button>
-      <button id="newFile">+ Archivo</button>
-      <hr>
+  for (const folder in fs) {
+    tree.innerHTML += `
+      <div class="folder" ondblclick="renameFolder('${folder}')">
+        📁 ${folder}
+      </div>
     `;
 
-    document.getElementById("newFolder").onclick = () => {
-      const name = prompt("Nombre de la carpeta:");
-      if (name && !fs[name]) {
-        fs[name] = {};
-        renderFiles();
-      }
-    };
-
-    document.getElementById("newFile").onclick = () => {
-      const name = prompt("Nombre del archivo (ej: game.js):");
-      if (name && !fs[currentFolder][name]) {
-        fs[currentFolder][name] = "// nuevo archivo\n";
-        renderFiles();
-      }
-    };
-
-    for (let folder in fs) {
-      filesPanel.innerHTML += `<div class="folder">📁 ${folder}</div>`;
-      for (let file in fs[folder]) {
-        filesPanel.innerHTML += `
-          <div class="file"
-               onclick="openFile('${folder}','${file}')">
-            📄 ${file}
-          </div>
-        `;
-      }
+    for (const file in fs[folder]) {
+      tree.innerHTML += `
+        <div class="file"
+             onclick="openFile('${folder}','${file}')"
+             ondblclick="renameFile('${folder}','${file}')">
+          📄 ${file}
+        </div>
+      `;
     }
   }
+}
 
-  // 📄 ABRIR ARCHIVO
-  window.openFile = (folder, file) => {
-    currentFolder = folder;
-    currentFile = file;
-    code.value = fs[folder][file];
-  };
+// ===== ACTIONS =====
 
-  // ▶ RUN
-  window.run = () => {
-    cancelAnimationFrame(loopId);
-
-    // guardar cambios
-    fs[currentFolder][currentFile] = code.value;
-
-    try {
-      eval(code.value);
-    } catch (e) {
-      alert(e);
-      return;
-    }
-
-    function loop() {
-      ctx.clearRect(0,0,600,240);
-      update();
-      draw(ctx);
-      loopId = requestAnimationFrame(loop);
-    }
-    loop();
-  };
-
-  // ■ STOP
-  window.stop = () => cancelAnimationFrame(loopId);
-
-  // INIT
+function createFolder() {
+  let name = prompt("Nombre de la carpeta:");
+  if (!name || fs[name]) return;
+  fs[name] = {};
   renderFiles();
-  openFile("scripts", "main.js");
-};
+}
 
+function createFile() {
+  let name = prompt("Nombre del archivo (.js):");
 
+  if (!name) return;
+  if (!name.endsWith(".js")) name += ".js";
+  if (fs[currentFolder][name]) return;
+
+  fs[currentFolder][name] = "// nuevo archivo\n";
+  renderFiles();
+}
+
+function renameFolder(oldName) {
+  let name = prompt("Nuevo nombre:", oldName);
+  if (!name || fs[name]) return;
+
+  fs[name] = fs[oldName];
+  delete fs[oldName];
+
+  if (currentFolder === oldName) currentFolder = name;
+  renderFiles();
+}
+
+function renameFile(folder, oldName) {
+  let name = prompt("Nuevo nombre (.js):", oldName);
+  if (!name) return;
+  if (!name.endsWith(".js")) name += ".js";
+  if (fs[folder][name]) return;
+
+  fs[folder][name] = fs[folder][oldName];
+  delete fs[folder][oldName];
+
+  if (currentFile === oldName) currentFile = name;
+  renderFiles();
+}
+
+function openFile(folder, file) {
+  currentFolder = folder;
+  currentFile = file;
+  code.value = fs[folder][file];
+}
+
+// ===== RUN / STOP =====
+
+function run() {
+  cancelAnimationFrame(loopId);
+
+  fs[currentFolder][currentFile] = code.value;
+
+  try {
+    eval(code.value);
+  } catch (e) {
+    alert(e);
+    return;
+  }
+
+  function loop() {
+    ctx.clearRect(0,0,600,240);
+    update();
+    draw(ctx);
+    loopId = requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+function stop() {
+  cancelAnimationFrame(loopId);
+}
+
+// INIT
+renderFiles();
+openFile("scripts", "main.js");

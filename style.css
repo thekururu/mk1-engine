@@ -70,4 +70,8 @@ button {
 canvas {
   border: 2px solid #333;
 }
+<div id="files">
+  <button id="newFolder">+ Carpeta</button>
+</div>
+
 

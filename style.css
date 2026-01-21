@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+  height: 100vh;
+  background: #0e0e0e;
+  color: white;
+  font-family: Arial;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 1fr 260px;
+}
+
+#files {
+  grid-row: 1 / 3;
+  background: #151515;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.file {
+  cursor: pointer;
+  padding: 4px;
+}
+.file:hover {
+  background: #333;
+}
+
+#editor {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+  flex: 1;
+  background: #111;
+  color: #0f0;
+  border: none;
+  font-family: monospace;
+  padding: 10px;
+  resize: none;
+}
+
+.buttons {
+  display: flex;
+}
+
+button {
+  flex: 1;
+  background: #1faa59;
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#screen {
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  border: 2px solid #333;
+}

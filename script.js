@@ -70,36 +70,40 @@ function renderFiles() {
 
 // ===== ACTIONS =====
 
-function createFolder() {
+window.createFolder = function () {
   let name = prompt("Nombre de la carpeta:");
   if (!name || fs[name]) return;
   fs[name] = {};
   renderFiles();
-}
+};
 
-function createFile() {
+window.createFile = function () {
   let name = prompt("Nombre del archivo (.js):");
-
   if (!name) return;
   if (!name.endsWith(".js")) name += ".js";
   if (fs[currentFolder][name]) return;
 
   fs[currentFolder][name] = "// nuevo archivo\n";
   renderFiles();
-}
+};
 
-function renameFolder(oldName) {
+window.openFile = function (folder, file) {
+  currentFolder = folder;
+  currentFile = file;
+  code.value = fs[folder][file];
+};
+
+window.renameFolder = function (oldName) {
   let name = prompt("Nuevo nombre:", oldName);
   if (!name || fs[name]) return;
 
   fs[name] = fs[oldName];
   delete fs[oldName];
-
   if (currentFolder === oldName) currentFolder = name;
   renderFiles();
-}
+};
 
-function renameFile(folder, oldName) {
+window.renameFile = function (folder, oldName) {
   let name = prompt("Nuevo nombre (.js):", oldName);
   if (!name) return;
   if (!name.endsWith(".js")) name += ".js";
@@ -107,44 +111,9 @@ function renameFile(folder, oldName) {
 
   fs[folder][name] = fs[folder][oldName];
   delete fs[folder][oldName];
-
   if (currentFile === oldName) currentFile = name;
   renderFiles();
-}
+};
 
-function openFile(folder, file) {
-  currentFolder = folder;
-  currentFile = file;
-  code.value = fs[folder][file];
-}
-
-// ===== RUN / STOP =====
-
-function run() {
-  cancelAnimationFrame(loopId);
-
-  fs[currentFolder][currentFile] = code.value;
-
-  try {
-    eval(code.value);
-  } catch (e) {
-    alert(e);
-    return;
-  }
-
-  function loop() {
-    ctx.clearRect(0,0,600,240);
-    update();
-    draw(ctx);
-    loopId = requestAnimationFrame(loop);
-  }
-  loop();
-}
-
-function stop() {
-  cancelAnimationFrame(loopId);
-}
-
-// INIT
-renderFiles();
-openFile("scripts", "main.js");
+window.run = function () { /* tu run */ };
+window.stop = function () { cancelAnimationFrame(loopId); };

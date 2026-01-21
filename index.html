@@ -28,6 +28,10 @@
     <div id="controls">
       <button onclick="run()">▶ RUN</button>
       <button onclick="stop()">■ STOP</button>
+       <label class="upload-btn">
+    ⬆ Subir archivo
+    <input type="file" accept=".js" hidden onchange="uploadFile(this)">
+  </label>
     </div>
   </div>
 
@@ -39,5 +43,6 @@
   <script src="./script.js"></script>
 </body>
 </html>
+
 
 

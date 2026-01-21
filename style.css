@@ -21,7 +21,9 @@ body {
   background: #151515;
   padding: 10px;
   font-size: 14px;
+  overflow-y: auto;   /* 🔥 CLAVE */
 }
+
 
 .file {
   cursor: pointer;
@@ -73,5 +75,16 @@ canvas {
 <div id="files">
   <button id="newFolder">+ Carpeta</button>
 </div>
+
+#newFolder {
+  width: 100%;
+  margin-bottom: 10px;
+  background: #1faa59;
+  color: white;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+}
+
 
 

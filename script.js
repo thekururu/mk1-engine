@@ -15,6 +15,12 @@ const fs = {
 
 let currentFolder = "scripts";
 let currentFile = "main.js";
+const virtualFS = {
+  "/": {}
+};
+
+let currentPath = "/";
+
 
 // ===== FILE SYSTEM =====
 
@@ -117,3 +123,58 @@ window.renameFile = function (folder, oldName) {
 
 window.run = function () { /* tu run */ };
 window.stop = function () { cancelAnimationFrame(loopId); };
+
+function createFile() {
+  const name = prompt("Nombre del archivo (solo .js)");
+  if (!name || !name.endsWith(".js")) {
+    alert("Solo archivos .js");
+    return;
+  }
+
+  virtualFS[currentPath][name] = "";
+  renderFiles();
+}
+function createFolder() {
+  const name = prompt("Nombre de la carpeta");
+  if (!name) return;
+
+  virtualFS[currentPath][name] = {};
+  renderFiles();
+}
+function uploadFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (!file.name.endsWith(".js")) {
+    alert("Solo se permiten archivos .js");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    virtualFS[currentPath][file.name] = reader.result;
+    renderFiles();
+  };
+  reader.readAsText(file);
+}
+function renderFiles() {
+  const filesDiv = document.getElementById("files");
+  filesDiv.innerHTML = "";
+
+  const folder = virtualFS[currentPath];
+
+  for (let name in folder) {
+    const item = document.createElement("div");
+    item.textContent = name;
+    item.style.cursor = "pointer";
+
+    item.onclick = () => {
+      if (typeof folder[name] === "string") {
+        document.getElementById("code").value = folder[name];
+      }
+    };
+
+    filesDiv.appendChild(item);
+  }
+}
+

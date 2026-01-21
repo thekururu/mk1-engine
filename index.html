@@ -2,36 +2,31 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>MK1 Engine</title>
-  <link rel="stylesheet" href="./style.css">
+  <title>Mini JS Engine</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
   <!-- PANEL IZQUIERDO -->
-<div id="files">
-  <div id="files-header">
+  <div id="files">
     <button onclick="createFolder()">+ Carpeta</button>
     <button onclick="createFile()">+ Archivo</button>
-  </div>
-  <div id="files-tree"></div>
-</div>
-   <!-- BOTÓN SUBIR -->
-  <input type="file" id="upload" style="display:none" onchange="uploadFile(event)">
-  <button onclick="document.getElementById('upload').click()">⬆ Subir archivo</button>
-</div>
 
+    <label class="upload">
+      ⬆ Subir .js
+      <input type="file" accept=".js" hidden onchange="uploadFile(this)">
+    </label>
+
+    <div id="filesTree"></div>
+  </div>
 
   <!-- EDITOR -->
   <div id="editor">
     <textarea id="code"></textarea>
+
     <div id="controls">
       <button onclick="run()">▶ RUN</button>
       <button onclick="stop()">■ STOP</button>
-       <label class="upload-btn">
-    ⬆ Subir archivo
-    <input type="file" accept=".js" hidden onchange="uploadFile(this)">
-  </label>
     </div>
   </div>
 
@@ -40,9 +35,6 @@
     <canvas id="canvas" width="600" height="240"></canvas>
   </div>
 
-  <script src="./script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
-
-
-

@@ -1,90 +1,30 @@
-#filename {
-  background: #000;
-  color: #0f0;
-  border: none;
-  padding: 6px;
-  font-family: monospace;
-}
-body {
-  margin: 0;
-  height: 100vh;
-  background: #0e0e0e;
-  color: white;
-  font-family: Arial;
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  grid-template-rows: 1fr 260px;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>MK1 Engine</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
 
-#files {
-  grid-row: 1 / 3;
-  background: #151515;
-  padding: 10px;
-  font-size: 14px;
-  overflow-y: auto;   /* 🔥 CLAVE */
-}
+<body>
 
+  <!-- PANEL IZQUIERDO -->
+  <div id="files"></div>
 
-.file {
-  cursor: pointer;
-  padding: 4px;
-}
-.file:hover {
-  background: #333;
-}
+  <!-- EDITOR -->
+  <div id="editor">
+    <textarea id="code"></textarea>
+    <div id="controls">
+      <button onclick="run()">▶ RUN</button>
+      <button onclick="stop()">■ STOP</button>
+    </div>
+  </div>
 
-#editor {
-  background: #111;
-  display: flex;
-  flex-direction: column;
-}
+  <!-- CANVAS -->
+  <div id="screen">
+    <canvas id="canvas" width="600" height="240"></canvas>
+  </div>
 
-textarea {
-  flex: 1;
-  background: #111;
-  color: #0f0;
-  border: none;
-  font-family: monospace;
-  padding: 10px;
-  resize: none;
-}
-
-.buttons {
-  display: flex;
-}
-
-button {
-  flex: 1;
-  background: #1faa59;
-  border: none;
-  color: white;
-  padding: 10px;
-  cursor: pointer;
-}
-
-#screen {
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-canvas {
-  border: 2px solid #333;
-}
-<div id="files">
-  <button id="newFolder">+ Carpeta</button>
-</div>
-
-#newFolder {
-  width: 100%;
-  margin-bottom: 10px;
-  background: #1faa59;
-  color: white;
-  border: none;
-  padding: 6px;
-  cursor: pointer;
-}
-
-
-
+  <script src="./script.js"></script>
+</body>
+</html>

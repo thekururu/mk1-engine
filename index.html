@@ -9,7 +9,14 @@
 <body>
 
   <!-- PANEL IZQUIERDO -->
-  <div id="files"></div>
+<div id="files">
+  <div id="files-header">
+    <button onclick="createFolder()">+ Carpeta</button>
+    <button onclick="createFile()">+ Archivo</button>
+  </div>
+  <div id="files-tree"></div>
+</div>
+
 
   <!-- EDITOR -->
   <div id="editor">
@@ -28,3 +35,4 @@
   <script src="./script.js"></script>
 </body>
 </html>
+

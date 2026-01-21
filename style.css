@@ -101,4 +101,60 @@ canvas {
   align-items: center;
   overflow: hidden;
 }
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  background: #111;
+  color: #0f0;
+  font-family: monospace;
+}
+
+#files {
+  width: 220px;
+  background: #0b0b0b;
+  border-right: 1px solid #333;
+}
+
+#files-header button,
+.upload-btn {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  background: #27ae60;
+  border: none;
+  color: black;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+
+#editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#code {
+  flex: 1;
+  background: black;
+  color: #00ff00;
+  border: none;
+  padding: 10px;
+}
+
+#controls {
+  background: #27ae60;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 6px;
+}
+
+#screen {
+  width: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 

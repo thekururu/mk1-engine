@@ -14,6 +14,15 @@ body {
 }
 
 /* PANEL IZQUIERDO */
+#files {
+  grid-row: 1 / 3;
+  background: #151515;
+  padding: 10px;
+  font-size: 14px;
+  overflow-y: auto; /* ← CLAVE */
+}
+
+
 #files button {
   width: 100%;
   margin-bottom: 6px;
@@ -24,15 +33,6 @@ body {
   cursor: pointer;
 }
 
-#files button {
-  width: 100%;
-  margin-bottom: 10px;
-  background: #1faa59;
-  color: white;
-  border: none;
-  padding: 6px;
-  cursor: pointer;
-}
 
 .folder {
   margin-top: 8px;
@@ -90,4 +90,5 @@ textarea {
 canvas {
   border: 2px solid #333;
 }
+
 

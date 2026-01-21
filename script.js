@@ -88,3 +88,33 @@ function draw(ctx) {
 
   // ▶ RUN
   window.run = () => {
+    cancelAnimationFrame(loopId);
+
+    // guardar cambios
+    fs[currentFolder][currentFile] = code.value;
+
+    try {
+      eval(code.value);
+    } catch (e) {
+      alert(e);
+      return;
+    }
+
+    function loop() {
+      ctx.clearRect(0,0,600,240);
+      update();
+      draw(ctx);
+      loopId = requestAnimationFrame(loop);
+    }
+    loop();
+  };
+
+  // ■ STOP
+  window.stop = () => cancelAnimationFrame(loopId);
+
+  // INIT
+  renderFiles();
+  openFile("scripts", "main.js");
+};
+
+

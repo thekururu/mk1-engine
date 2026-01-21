@@ -1,30 +1,89 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>MK1 Engine</title>
-  <link rel="stylesheet" href="./style.css">
-</head>
+* {
+  box-sizing: border-box;
+}
 
-<body>
+body {
+  margin: 0;
+  height: 100vh;
+  background: #0e0e0e;
+  color: white;
+  font-family: Arial;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: 1fr 260px;
+}
 
-  <!-- PANEL IZQUIERDO -->
-  <div id="files"></div>
+/* PANEL IZQUIERDO */
+#files {
+  grid-row: 1 / 3;
+  background: #151515;
+  padding: 10px;
+  overflow-y: auto;
+}
 
-  <!-- EDITOR -->
-  <div id="editor">
-    <textarea id="code"></textarea>
-    <div id="controls">
-      <button onclick="run()">▶ RUN</button>
-      <button onclick="stop()">■ STOP</button>
-    </div>
-  </div>
+#files button {
+  width: 100%;
+  margin-bottom: 10px;
+  background: #1faa59;
+  color: white;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+}
 
-  <!-- CANVAS -->
-  <div id="screen">
-    <canvas id="canvas" width="600" height="240"></canvas>
-  </div>
+.folder {
+  margin-top: 8px;
+}
 
-  <script src="./script.js"></script>
-</body>
-</html>
+.file {
+  margin-left: 16px;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.file:hover {
+  background: #333;
+}
+
+/* EDITOR */
+#editor {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+  flex: 1;
+  background: #111;
+  color: #0f0;
+  border: none;
+  padding: 10px;
+  font-family: monospace;
+  resize: none;
+}
+
+/* CONTROLES */
+#controls {
+  display: flex;
+}
+
+#controls button {
+  flex: 1;
+  background: #1faa59;
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* CANVAS */
+#screen {
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  border: 2px solid #333;
+}
